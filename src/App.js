@@ -1,23 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import Login from './Login/Login';
+import Signup from './Signup/Signup';
 
 function App() {
+  const [showLogin, setShowLogin] = useState(true);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      {showLogin ? <Login /> : <Signup />}
+
+      <div style={{ textAlign: 'center', marginTop: 20 }}>
+        {showLogin ? (
+          <>
+            Don't have an account?{' '}
+            <button onClick={() => setShowLogin(false)}>Signup</button>
+          </>
+        ) : (
+          <>
+            Already have an account?{' '}
+            <button onClick={() => setShowLogin(true)}>Login</button>
+          </>
+        )}
+      </div>
     </div>
   );
 }
