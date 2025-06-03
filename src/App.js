@@ -1,28 +1,33 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import Login from './Login/Login';
 import Signup from './Signup/Signup';
+import Dashboard from './Dashboard/Dashboard';
+import FriendRequests from './Dashboard/FriendRequests';
+import FriendsList from './Dashboard/FriendsList';
+import DashboardHome from './Dashboard/DashboardHome';
+import ProtectedRoute from './components/protectedRoutes';
 
 function App() {
-  const [showLogin, setShowLogin] = useState(true);
-
   return (
-    <div>
-      {showLogin ? <Login /> : <Signup />}
+    <Routes>
+      <Route path="/" element={<Navigate to="/login" />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/signup" element={<Signup />} />
 
-      <div style={{ textAlign: 'center', marginTop: 20 }}>
-        {showLogin ? (
-          <>
-            Don't have an account?{' '}
-            <button onClick={() => setShowLogin(false)}>Signup</button>
-          </>
-        ) : (
-          <>
-            Already have an account?{' '}
-            <button onClick={() => setShowLogin(true)}>Login</button>
-          </>
-        )}
-      </div>
-    </div>
+      <Route
+        path="/dashboard"
+        element={
+          <ProtectedRoute>
+            <Dashboard />
+          </ProtectedRoute>
+        }
+      >
+        <Route index element={<DashboardHome />} />
+        <Route path="requests" element={<FriendRequests />} />
+        <Route path="friends" element={<FriendsList />} />
+      </Route>
+    </Routes>
   );
 }
 
